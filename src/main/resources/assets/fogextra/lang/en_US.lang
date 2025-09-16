@@ -5,9 +5,9 @@ FOGAlloySmelterModuleRecipeType=Alloy Smelter
 Tooltip_FOGAlloySmelterModule_00=This is a module of the Godforge
 Tooltip_FOGAlloySmelterModule_01=Must be part of a Godforge to function
 Tooltip_FOGAlloySmelterModule_02=Used for alloy smelting under focused temperatures.
-Tooltip_FOGAlloySmelterModule_03=The fifth module of the Godforge, this module melts materials directly into their liquid form
-Tooltip_FOGAlloySmelterModule_04=If an output material does not have a liquid form, it will be output
-Tooltip_FOGAlloySmelterModule_05=as a regular solid instead
+Tooltip_FOGAlloySmelterModule_03=The fifth module of the Godforge, capable of refining materials directly into alloys
+Tooltip_FOGAlloySmelterModule_04=It can still function even without high temperatures
+Tooltip_FOGAlloySmelterModule_05=Does not require Godforge upgrades
 Tooltip_FOGAlloySmelterModule_06=This module has the fastest processing speed.
 
 NameFOGAlloyBlastSmelterModule=Solar Focused Fusion Core
