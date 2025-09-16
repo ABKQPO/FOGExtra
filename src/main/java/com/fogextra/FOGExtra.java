@@ -13,6 +13,7 @@ import net.minecraft.util.StatCollector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -50,7 +51,7 @@ public class FOGExtra {
     // postInit "Handle interaction with other mods, complete your setup based on this." (Remove if not needed)
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        registry();
+        if (!Loader.isModLoaded("sciencenotleisure")) registry();
     }
 
     public static void registry() {
