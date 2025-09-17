@@ -70,6 +70,7 @@ public class FOGExtra {
                 21174,
                 "NameFOGExtractorModule",
                 StatCollector.translateToLocal("NameFOGExtractorModule")));
+        RecipeLoader.loadRecipe();
     }
 
     private static final List<ItemStack> MachineStack = new ArrayList<>();
@@ -78,12 +79,12 @@ public class FOGExtra {
 
         @Override
         public Item getTabIconItem() {
-            return ItemList.Transdimensional_Alignment_Matrix.getItem();
+            return ItemList.Relativistic_Heat_Capacitor.getItem();
         }
 
         @SideOnly(Side.CLIENT)
         public int func_151243_f() {
-            return 32758;
+            return 32760;
         }
 
         @Override
