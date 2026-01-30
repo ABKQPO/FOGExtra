@@ -13,6 +13,12 @@ import net.minecraft.util.StatCollector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fogextra.machine.MTEAlloyBlastSmelterModule;
+import com.fogextra.machine.MTEAlloySmelterModule;
+import com.fogextra.machine.MTEExtractorModule;
+import com.fogextra.machine.MTESolarMuonCatalystModule;
+import com.fogextra.recipe.RecipeLoader;
+
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -70,6 +76,11 @@ public class FOGExtra {
                 21174,
                 "NameFOGExtractorModule",
                 StatCollector.translateToLocal("NameFOGExtractorModule")));
+        FOGExtraItemList.fogSolarMuonCatalystModule.set(
+            new MTESolarMuonCatalystModule(
+                21219,
+                "NameFOGSolarMuonCatalystModule",
+                StatCollector.translateToLocal("NameFOGSolarMuonCatalystModule")));
         RecipeLoader.loadRecipe();
     }
 

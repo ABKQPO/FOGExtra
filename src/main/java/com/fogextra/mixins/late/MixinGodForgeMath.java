@@ -9,9 +9,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.fogextra.MTEAlloyBlastSmelterModule;
-import com.fogextra.MTEAlloySmelterModule;
-import com.fogextra.MTEExtractorModule;
+import com.fogextra.machine.MTEAlloyBlastSmelterModule;
+import com.fogextra.machine.MTEAlloySmelterModule;
+import com.fogextra.machine.MTEExtractorModule;
+import com.fogextra.machine.MTESolarMuonCatalystModule;
 
 import tectech.thing.metaTileEntity.multi.godforge.MTEBaseModule;
 import tectech.thing.metaTileEntity.multi.godforge.MTEForgeOfGods;
@@ -25,12 +26,12 @@ public abstract class MixinGodForgeMath {
         CallbackInfoReturnable<Boolean> cir) {
         if (module instanceof MTEAlloySmelterModule) {
             cir.setReturnValue(true);
-            return;
-        }
-        if ((module instanceof MTEAlloyBlastSmelterModule || module instanceof MTEExtractorModule)
+        } else if ((module instanceof MTEAlloyBlastSmelterModule || module instanceof MTEExtractorModule)
             && godforge.isUpgradeActive(FDIM)) {
-            cir.setReturnValue(true);
-        }
+                cir.setReturnValue(true);
+            } else if (module instanceof MTESolarMuonCatalystModule && godforge.isUpgradeActive(QGPIU)) {
+                cir.setReturnValue(true);
+            }
     }
 
     @ModifyConstant(
@@ -44,6 +45,8 @@ public abstract class MixinGodForgeMath {
             return 2048;
         } else if (module instanceof MTEAlloyBlastSmelterModule) {
             return 512;
+        } else if (module instanceof MTESolarMuonCatalystModule) {
+            return 128;
         }
         return constant;
     }

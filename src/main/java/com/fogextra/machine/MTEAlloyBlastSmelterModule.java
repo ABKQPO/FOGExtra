@@ -1,4 +1,4 @@
-package com.fogextra;
+package com.fogextra.machine;
 
 import static gregtech.api.util.GTUtility.*;
 import static gregtech.common.misc.WirelessNetworkManager.*;
@@ -16,30 +16,30 @@ import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.logic.ProcessingLogic;
 import gregtech.api.recipe.RecipeMap;
-import gregtech.api.recipe.RecipeMaps;
 import gregtech.api.recipe.check.CheckRecipeResult;
 import gregtech.api.recipe.check.CheckRecipeResultRegistry;
 import gregtech.api.util.GTRecipe;
 import gregtech.api.util.MultiblockTooltipBuilder;
 import gregtech.api.util.OverclockCalculator;
+import gtPlusPlus.api.recipe.GTPPRecipeMaps;
 import tectech.thing.metaTileEntity.multi.godforge.MTEBaseModule;
 
-public class MTEAlloySmelterModule extends MTEBaseModule {
+public class MTEAlloyBlastSmelterModule extends MTEBaseModule {
 
     private long EUt = 0;
     private int currentParallel = 0;
 
-    public MTEAlloySmelterModule(int aID, String aName, String aNameRegional) {
+    public MTEAlloyBlastSmelterModule(int aID, String aName, String aNameRegional) {
         super(aID, aName, aNameRegional);
     }
 
-    public MTEAlloySmelterModule(String aName) {
+    public MTEAlloyBlastSmelterModule(String aName) {
         super(aName);
     }
 
     @Override
     public IMetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
-        return new MTEAlloySmelterModule(mName);
+        return new MTEAlloyBlastSmelterModule(mName);
     }
 
     long wirelessEUt = 0;
@@ -89,7 +89,6 @@ public class MTEAlloySmelterModule extends MTEBaseModule {
                 currentParallel = calculatedParallels;
                 EUt = calculatedEut;
                 overwriteCalculatedEut(0);
-                setCurrentRecipeHeat(recipe.mSpecialValue);
                 return CheckRecipeResultRegistry.SUCCESSFUL;
             }
         };
@@ -104,11 +103,12 @@ public class MTEAlloySmelterModule extends MTEBaseModule {
         logic.setMaxParallel(getActualParallel());
         logic.setSpeedBonus(getSpeedBonus());
         logic.setEuModifier(getEnergyDiscount());
+        logic.enablePerfectOverclock();
     }
 
     @Override
     public int getMaxParallel() {
-        long value = (long) maximumParallel * 32;
+        long value = (long) maximumParallel * 16;
         if (value > Integer.MAX_VALUE) {
             return Integer.MAX_VALUE;
         }
@@ -117,12 +117,17 @@ public class MTEAlloySmelterModule extends MTEBaseModule {
 
     @Override
     public double getSpeedBonus() {
-        return processingSpeedBonus / 3;
+        return processingSpeedBonus / 2;
+    }
+
+    @Override
+    public double getEnergyDiscount() {
+        return energyDiscount / 2;
     }
 
     @Override
     public RecipeMap<?> getRecipeMap() {
-        return RecipeMaps.alloySmelterRecipes;
+        return GTPPRecipeMaps.alloyBlastSmelterRecipes;
     }
 
     @Override
@@ -163,15 +168,15 @@ public class MTEAlloySmelterModule extends MTEBaseModule {
     @Override
     public MultiblockTooltipBuilder createTooltip() {
         final MultiblockTooltipBuilder tt = new MultiblockTooltipBuilder();
-        tt.addMachineType(StatCollector.translateToLocal("FOGAlloySmelterModuleRecipeType"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_00"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_01"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_02"))
+        tt.addMachineType(StatCollector.translateToLocal("FOGAlloyBlastSmelterModuleRecipeType"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_00"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_01"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_02"))
             .addSeparator(EnumChatFormatting.AQUA, 74)
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_03"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_04"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_05"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_06"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_03"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_04"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_05"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_06"))
             .beginStructureBlock(7, 7, 13, false)
             .addStructureInfo(
                 EnumChatFormatting.GOLD + "20"

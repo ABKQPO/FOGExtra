@@ -24,7 +24,8 @@ public enum FOGExtraItemList implements IItemContainer {
 
     fogAlloySmelterModule,
     fogAlloyBlastSmelterModule,
-    fogExtractorModule;
+    fogExtractorModule,
+    fogSolarMuonCatalystModule;
 
     public boolean mHasNotBeenSet;
     public boolean mDeprecated;

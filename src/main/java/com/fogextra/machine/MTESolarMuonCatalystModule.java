@@ -1,4 +1,4 @@
-package com.fogextra;
+package com.fogextra.machine;
 
 import static gregtech.api.util.GTUtility.*;
 import static gregtech.common.misc.WirelessNetworkManager.*;
@@ -12,34 +12,43 @@ import net.minecraft.util.StatCollector;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.fogextra.mixinHelper.IFOGModule;
+import com.fogextra.recipe.FOGERecipeMaps;
+import com.fogextra.recipe.SolorMuonCatalystMetadata;
+
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.logic.ProcessingLogic;
 import gregtech.api.recipe.RecipeMap;
 import gregtech.api.recipe.check.CheckRecipeResult;
 import gregtech.api.recipe.check.CheckRecipeResultRegistry;
+import gregtech.api.recipe.check.SimpleCheckRecipeResult;
 import gregtech.api.util.GTRecipe;
 import gregtech.api.util.MultiblockTooltipBuilder;
 import gregtech.api.util.OverclockCalculator;
-import gtPlusPlus.api.recipe.GTPPRecipeMaps;
+import lombok.Getter;
+import lombok.Setter;
 import tectech.thing.metaTileEntity.multi.godforge.MTEBaseModule;
 
-public class MTEAlloyBlastSmelterModule extends MTEBaseModule {
+public class MTESolarMuonCatalystModule extends MTEBaseModule implements IFOGModule {
 
     private long EUt = 0;
     private int currentParallel = 0;
+    @Getter
+    @Setter
+    private int ringAmount = 0;
 
-    public MTEAlloyBlastSmelterModule(int aID, String aName, String aNameRegional) {
+    public MTESolarMuonCatalystModule(int aID, String aName, String aNameRegional) {
         super(aID, aName, aNameRegional);
     }
 
-    public MTEAlloyBlastSmelterModule(String aName) {
+    public MTESolarMuonCatalystModule(String aName) {
         super(aName);
     }
 
     @Override
     public IMetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
-        return new MTEAlloyBlastSmelterModule(mName);
+        return new MTESolarMuonCatalystModule(mName);
     }
 
     long wirelessEUt = 0;
@@ -60,6 +69,10 @@ public class MTEAlloyBlastSmelterModule extends MTEBaseModule {
                 if (getUserEU(userUUID).compareTo(BigInteger.valueOf(wirelessEUt * recipe.mDuration)) < 0) {
                     return CheckRecipeResultRegistry.insufficientPower(wirelessEUt * recipe.mDuration);
                 }
+
+                if (recipe.getMetadataOrDefault(SolorMuonCatalystMetadata.INSTANCE, false) && ringAmount != 3) {
+                    return SimpleCheckRecipeResult.ofFailure("not_enough_ring_amount");
+                }
                 return CheckRecipeResultRegistry.SUCCESSFUL;
             }
 
@@ -67,13 +80,9 @@ public class MTEAlloyBlastSmelterModule extends MTEBaseModule {
             @Override
             protected OverclockCalculator createOverclockCalculator(@NotNull GTRecipe recipe) {
                 return super.createOverclockCalculator(recipe).setEUt(getSafeProcessingVoltage())
-                    .setRecipeHeat(recipe.mSpecialValue)
-                    .setHeatOC(true)
-                    .setHeatDiscount(true)
-                    .setMachineHeat(Math.max(recipe.mSpecialValue, getHeatForOC()))
                     .setHeatDiscountMultiplier(getHeatEnergyDiscount())
-                    .setDurationDecreasePerOC(getOverclockTimeFactor());
-
+                    .setDurationDecreasePerOC(getOverclockTimeFactor())
+                    .enablePerfectOC();
             }
 
             @NotNull
@@ -89,7 +98,6 @@ public class MTEAlloyBlastSmelterModule extends MTEBaseModule {
                 currentParallel = calculatedParallels;
                 EUt = calculatedEut;
                 overwriteCalculatedEut(0);
-                setCurrentRecipeHeat(recipe.mSpecialValue);
                 return CheckRecipeResultRegistry.SUCCESSFUL;
             }
         };
@@ -104,31 +112,16 @@ public class MTEAlloyBlastSmelterModule extends MTEBaseModule {
         logic.setMaxParallel(getActualParallel());
         logic.setSpeedBonus(getSpeedBonus());
         logic.setEuModifier(getEnergyDiscount());
-        logic.enablePerfectOverclock();
-    }
-
-    @Override
-    public int getMaxParallel() {
-        long value = (long) maximumParallel * 16;
-        if (value > Integer.MAX_VALUE) {
-            return Integer.MAX_VALUE;
-        }
-        return (int) value;
-    }
-
-    @Override
-    public double getSpeedBonus() {
-        return processingSpeedBonus / 2;
-    }
-
-    @Override
-    public double getEnergyDiscount() {
-        return energyDiscount / 2;
     }
 
     @Override
     public RecipeMap<?> getRecipeMap() {
-        return GTPPRecipeMaps.alloyBlastSmelterRecipes;
+        return FOGERecipeMaps.SolarMuonCatalyst;
+    }
+
+    @Override
+    public int getRecipeCatalystPriority() {
+        return -10;
     }
 
     @Override
@@ -169,15 +162,15 @@ public class MTEAlloyBlastSmelterModule extends MTEBaseModule {
     @Override
     public MultiblockTooltipBuilder createTooltip() {
         final MultiblockTooltipBuilder tt = new MultiblockTooltipBuilder();
-        tt.addMachineType(StatCollector.translateToLocal("FOGAlloyBlastSmelterModuleRecipeType"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_00"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_01"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_02"))
+        tt.addMachineType(StatCollector.translateToLocal("FOGSolarMuonCatalystModuleRecipeType"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_00"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_01"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_02"))
             .addSeparator(EnumChatFormatting.AQUA, 74)
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_03"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_04"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_05"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloyBlastSmelterModule_06"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_03"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_04"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_05"))
+            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_06"))
             .beginStructureBlock(7, 7, 13, false)
             .addStructureInfo(
                 EnumChatFormatting.GOLD + "20"
