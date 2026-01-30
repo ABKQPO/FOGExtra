@@ -16,6 +16,7 @@ public class FOGERecipeMaps {
         .of("foge.recipe.SolarMuonCatalyst", RecipeMapBackend::new)
         .maxIO(1, 0, 9, 1)
         .progressBar(GTUITextures.PROGRESSBAR_ARROW_MULTIPLE)
+        .frontend(GeneralFrontend::new)
         .neiHandlerInfo(
             builder -> builder.setDisplayStack(FOGExtraItemList.fogSolarMuonCatalystModule.get(1))
                 .setMaxRecipesPerPage(1))
