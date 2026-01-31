@@ -151,8 +151,8 @@ public class RecipeLoader {
             .metadata(SolorMuonCatalystMetadata.INSTANCE, true)
             .itemInputs(GTUtility.copyAmount(0, Particle.getBaseParticle(Particle.MUON)))
             .fluidInputs(
-                MaterialsUEVplus.Space.getFluid(100),
-                MaterialsUEVplus.Time.getFluid(50),
+                MaterialsUEVplus.Space.getMolten(100),
+                MaterialsUEVplus.Time.getMolten(50),
                 Materials.Ichorium.getPlasma(1440),
                 new FluidStack(MaterialsElements.STANDALONE.HYPOGEN.getPlasma(), 1440),
                 Materials.Flerovium.getPlasma(1440),
