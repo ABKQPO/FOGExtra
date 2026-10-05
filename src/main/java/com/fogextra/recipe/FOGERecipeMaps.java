@@ -13,7 +13,7 @@ import gregtech.api.util.GTRecipe;
 public class FOGERecipeMaps {
 
     public static final RecipeMap<RecipeMapBackend> SolarMuonCatalyst = RecipeMapBuilder
-        .of("foge.recipe.SolarMuonCatalyst", RecipeMapBackend::new)
+        .of("fogextra.recipe.solar_muon_catalyst", RecipeMapBackend::new)
         .maxIO(1, 0, 9, 1)
         .progressBar(GTUITextures.PROGRESSBAR_ARROW_MULTIPLE)
         .frontend(GeneralFrontend::new)

@@ -64,29 +64,29 @@ public class FOGExtra {
         FOGExtraItemList.fogAlloySmelterModule.set(
             new MTEAlloySmelterModule(
                 21172,
-                "NameFOGAlloySmelterModule",
-                StatCollector.translateToLocal("NameFOGAlloySmelterModule")));
+                "fogextra.machine.fog_alloy_smelter_module",
+                StatCollector.translateToLocal("fogextra.machine.fog_alloy_smelter_module.name")));
         FOGExtraItemList.fogAlloyBlastSmelterModule.set(
             new MTEAlloyBlastSmelterModule(
                 21173,
-                "NameFOGAlloyBlastSmelterModule",
-                StatCollector.translateToLocal("NameFOGAlloyBlastSmelterModule")));
+                "fogextra.machine.fog_alloy_blast_smelter_module",
+                StatCollector.translateToLocal("fogextra.machine.fog_alloy_blast_smelter_module.name")));
         FOGExtraItemList.fogExtractorModule.set(
             new MTEExtractorModule(
                 21174,
-                "NameFOGExtractorModule",
-                StatCollector.translateToLocal("NameFOGExtractorModule")));
+                "fogextra.machine.fog_extractor_module",
+                StatCollector.translateToLocal("fogextra.machine.fog_extractor_module.name")));
         FOGExtraItemList.fogSolarMuonCatalystModule.set(
             new MTESolarMuonCatalystModule(
                 21219,
-                "NameFOGSolarMuonCatalystModule",
-                StatCollector.translateToLocal("NameFOGSolarMuonCatalystModule")));
+                "fogextra.machine.fog_solar_muon_catalyst_module",
+                StatCollector.translateToLocal("fogextra.machine.fog_solar_muon_catalyst_module.name")));
         RecipeLoader.loadRecipe();
     }
 
     private static final List<ItemStack> MachineStack = new ArrayList<>();
 
-    public static CreativeTabs FOGExtraCreativeTabs = new CreativeTabs("FOGExtraCreativeTabs") {
+    public static CreativeTabs FOGExtraCreativeTabs = new CreativeTabs("fogextra") {
 
         @Override
         public Item getTabIconItem() {

@@ -13,7 +13,6 @@ import gregtech.api.GregTechAPI;
 import gregtech.api.interfaces.IItemContainer;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.util.GTLanguageManager;
-import gregtech.api.util.GTLog;
 import gregtech.api.util.GTModHandler;
 import gregtech.api.util.GTOreDictUnificator;
 import gregtech.api.util.GTRecipeBuilder;
@@ -62,8 +61,7 @@ public enum FOGExtraItemList implements IItemContainer {
         sanityCheck();
         // if invalid, return a replacements
         if (Utils.isStackInvalid(mStack)) {
-            GTLog.out.println("Object in the ReAvaItemList is null at:");
-            new NullPointerException().printStackTrace(GTLog.out);
+            FOGExtra.LOG.error("Object in the FOGExtraItemList is null at {}", this, new NullPointerException());
             return Utils.copyAmount(Math.toIntExact(aAmount), new ItemStack(Blocks.fire));
         }
         return Utils.copyAmount(Math.toIntExact(aAmount), mStack);
@@ -113,7 +111,7 @@ public enum FOGExtraItemList implements IItemContainer {
         if (mHasNotBeenSet)
             throw new IllegalAccessError("The Enum '" + name() + "' has not been set to an Item at this time!");
         if (mDeprecated && !mWarned) {
-            new Exception(this + " is now deprecated").printStackTrace(GTLog.err);
+            FOGExtra.LOG.warn("{} is now deprecated", this, new Exception());
             // warn only once
             mWarned = true;
         }
@@ -127,7 +125,7 @@ public enum FOGExtraItemList implements IItemContainer {
     @Override
     public boolean isStackEqual(Object aStack, boolean aWildcard, boolean aIgnoreNBT) {
         if (mDeprecated && !mWarned) {
-            new Exception(this + " is now deprecated").printStackTrace(GTLog.err);
+            FOGExtra.LOG.warn("{} is now deprecated", this, new Exception());
             // warn only once
             mWarned = true;
         }
@@ -180,7 +178,8 @@ public enum FOGExtraItemList implements IItemContainer {
         // Construct a translation key from UnlocalizedName and CamelCased DisplayName
         final String tKey = rStack.getUnlocalizedName() + ".with." + tCamelCasedDisplayNameBuilder + ".name";
 
-        rStack.setStackDisplayName(GTLanguageManager.addStringLocalization(tKey, aDisplayName));
+        GTLanguageManager.addStringLocalization(tKey, aDisplayName);
+        rStack.setStackDisplayName(aDisplayName);
         return GTUtility.copyAmount(aAmount, rStack);
     }
 

@@ -1,16 +1,15 @@
 package com.fogextra.mixins.late;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.fogextra.api.mixinHelper.IFOGModule;
 import com.fogextra.machine.MTEAlloyBlastSmelterModule;
 import com.fogextra.machine.MTEAlloySmelterModule;
 import com.fogextra.machine.MTEExtractorModule;
 import com.fogextra.machine.MTESolarMuonCatalystModule;
-import com.fogextra.mixinHelper.IFOGModule;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -22,9 +21,6 @@ import tectech.thing.metaTileEntity.multi.godforge.MTEForgeOfGods;
 
 @Mixin(value = MTEForgeOfGods.class, remap = false)
 public abstract class MixinMTEForgeOfGods {
-
-    @Shadow
-    private int ringAmount;
 
     @WrapOperation(
         method = "determineCompositionMilestoneLevel",
@@ -46,6 +42,13 @@ public abstract class MixinMTEForgeOfGods {
 
     @WrapOperation(
         method = "determineCompositionMilestoneLevel",
+        at = @At(value = "CONSTANT", args = "classValue=tectech/thing/metaTileEntity/multi/godforge/MTESmeltingModule"))
+    private boolean wrapInstanceOfMTESmeltingModule(Object obj, Operation<Boolean> original) {
+        return original.call(obj) || obj instanceof MTEAlloySmelterModule;
+    }
+
+    @WrapOperation(
+        method = "determineCompositionMilestoneLevel",
         at = @At(value = "CONSTANT", args = "classValue=tectech/thing/metaTileEntity/multi/godforge/MTEMoltenModule"))
     private boolean wrapInstanceOfMTEMoltenModule(Object obj, Operation<Boolean> original) {
         return original.call(obj) || obj instanceof MTEExtractorModule;
@@ -55,18 +58,21 @@ public abstract class MixinMTEForgeOfGods {
         method = "determineCompositionMilestoneLevel",
         at = @At(value = "CONSTANT", args = "classValue=tectech/thing/metaTileEntity/multi/godforge/MTEPlasmaModule"))
     private boolean wrapInstanceOfMTEPlasmaModule(Object obj, Operation<Boolean> original) {
-        return original.call(obj) || obj instanceof MTEAlloySmelterModule;
+        return original.call(obj) || obj instanceof MTEAlloyBlastSmelterModule;
     }
 
     @Inject(
         method = "onPostTick",
         at = @At(
             value = "INVOKE",
-            target = "Ltectech/thing/metaTileEntity/multi/godforge/util/GodforgeMath;allowModuleConnection(Ltectech/thing/metaTileEntity/multi/godforge/MTEBaseModule;Ltectech/thing/metaTileEntity/multi/godforge/MTEForgeOfGods;)Z"))
+            target = "Ltectech/thing/metaTileEntity/multi/godforge/util/GodforgeMath;allowModuleConnection(Ltectech/thing/metaTileEntity/multi/godforge/MTEBaseModule;Ltectech/thing/metaTileEntity/multi/godforge/util/ForgeOfGodsData;)Z"))
     private void onModuleLoop(IGregTechTileEntity aBaseMetaTileEntity, long aTick, CallbackInfo ci,
         @Local MTEBaseModule module) {
         if (module instanceof IFOGModule fogModule) {
-            fogModule.setRingAmount(ringAmount);
+            MTEForgeOfGods forgeOfGods = (MTEForgeOfGods) (Object) this;
+            fogModule.setRingAmount(
+                forgeOfGods.getData()
+                    .getRingAmount());
         }
     }
 

@@ -13,7 +13,6 @@ import goodgenerator.util.ItemRefer;
 import gregtech.api.enums.GTValues;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
-import gregtech.api.enums.MaterialsUEVplus;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.TierEU;
 import gregtech.api.util.GTOreDictUnificator;
@@ -41,15 +40,15 @@ public class RecipeLoader {
                 GTOreDictUnificator.get(OrePrefixes.wireGt16, Materials.SuperconductorUIV, 16),
                 ItemList.Robot_Arm_UIV.get(16),
                 ItemList.Conveyor_Module_UIV.get(32),
-                GTOreDictUnificator.get(OrePrefixes.plateDense, MaterialsUEVplus.SixPhasedCopper, 16),
-                GTOreDictUnificator.get(OrePrefixes.plateDense, MaterialsUEVplus.Creon, 8),
-                GTOreDictUnificator.get(OrePrefixes.plateDense, MaterialsUEVplus.Mellion, 8),
+                GTOreDictUnificator.get(OrePrefixes.plateDense, Materials.SixPhasedCopper, 16),
+                GTOreDictUnificator.get(OrePrefixes.plateDense, Materials.Creon, 8),
+                GTOreDictUnificator.get(OrePrefixes.plateDense, Materials.Mellion, 8),
                 new Object[] { OrePrefixes.circuit.get(Materials.UIV), 32L })
             .fluidInputs(
                 MaterialMisc.MUTATED_LIVING_SOLDER.getFluidStack(147456),
-                MaterialsUEVplus.ExcitedDTEC.getFluid(2048000),
+                Materials.ExcitedDTEC.getFluid(2048000),
                 Materials.Lead.getPlasma(36864),
-                MaterialsUEVplus.TranscendentMetal.getMolten(147456))
+                Materials.TranscendentMetal.getMolten(147456))
             .itemOutputs(FOGExtraItemList.fogAlloySmelterModule.get(1))
             .eut(TierEU.RECIPE_UMV)
             .duration(300 * SECONDS)
@@ -68,15 +67,15 @@ public class RecipeLoader {
                 ItemList.Conveyor_Module_UIV.get(32),
                 ItemList.Electric_Pump_UIV.get(64),
                 ItemList.Relativistic_Heat_Capacitor.get(8),
-                GTOreDictUnificator.get(OrePrefixes.plateDense, MaterialsUEVplus.SixPhasedCopper, 16),
-                GTOreDictUnificator.get(OrePrefixes.plateDense, MaterialsUEVplus.Creon, 8),
-                GTOreDictUnificator.get(OrePrefixes.plateDense, MaterialsUEVplus.Mellion, 8),
+                GTOreDictUnificator.get(OrePrefixes.plateDense, Materials.SixPhasedCopper, 16),
+                GTOreDictUnificator.get(OrePrefixes.plateDense, Materials.Creon, 8),
+                GTOreDictUnificator.get(OrePrefixes.plateDense, Materials.Mellion, 8),
                 new Object[] { OrePrefixes.circuit.get(Materials.UIV), 32L })
             .fluidInputs(
                 MaterialMisc.MUTATED_LIVING_SOLDER.getFluidStack(147456),
-                MaterialsUEVplus.ExcitedDTEC.getFluid(2048000),
+                Materials.ExcitedDTEC.getFluid(2048000),
                 Materials.Lead.getPlasma(36864),
-                MaterialsUEVplus.TranscendentMetal.getMolten(147456))
+                Materials.TranscendentMetal.getMolten(147456))
             .itemOutputs(FOGExtraItemList.fogExtractorModule.get(1))
             .eut(TierEU.RECIPE_UMV)
             .duration(300 * SECONDS)
@@ -95,15 +94,15 @@ public class RecipeLoader {
                 ItemList.Conveyor_Module_UIV.get(32),
                 ItemList.Electric_Pump_UIV.get(64),
                 ItemList.Relativistic_Heat_Capacitor.get(32),
-                GTOreDictUnificator.get(OrePrefixes.plateDense, MaterialsUEVplus.SixPhasedCopper, 16),
-                GTOreDictUnificator.get(OrePrefixes.plateDense, MaterialsUEVplus.Creon, 8),
-                GTOreDictUnificator.get(OrePrefixes.plateDense, MaterialsUEVplus.Mellion, 8),
+                GTOreDictUnificator.get(OrePrefixes.plateDense, Materials.SixPhasedCopper, 16),
+                GTOreDictUnificator.get(OrePrefixes.plateDense, Materials.Creon, 8),
+                GTOreDictUnificator.get(OrePrefixes.plateDense, Materials.Mellion, 8),
                 new Object[] { OrePrefixes.circuit.get(Materials.UIV), 32L })
             .fluidInputs(
                 MaterialMisc.MUTATED_LIVING_SOLDER.getFluidStack(147456),
-                MaterialsUEVplus.ExcitedDTEC.getFluid(2048000),
-                MaterialsUEVplus.PhononMedium.getFluid(32000),
-                MaterialsUEVplus.TranscendentMetal.getMolten(147456))
+                Materials.ExcitedDTEC.getFluid(2048000),
+                Materials.PhononMedium.getFluid(32000),
+                Materials.TranscendentMetal.getMolten(147456))
             .itemOutputs(FOGExtraItemList.fogAlloyBlastSmelterModule.get(1))
             .eut(TierEU.RECIPE_UMV)
             .duration(300 * SECONDS)
@@ -120,13 +119,13 @@ public class RecipeLoader {
                 CustomItemList.Godforge_HarmonicPhononTransmissionConduit.get(32), ItemList.Robot_Arm_UXV.get(16),
                 ItemList.Conveyor_Module_UXV.get(32), ItemList.Electric_Pump_UXV.get(64),
                 GTOreDictUnificator.get(OrePrefixes.plateSuperdense, Materials.SuperconductorUMVBase, 64),
-                GTOreDictUnificator.get(OrePrefixes.plateSuperdense, MaterialsUEVplus.MagMatter, 32),
-                GTOreDictUnificator.get(OrePrefixes.plateSuperdense, MaterialsUEVplus.Eternity, 32),
-                GTOreDictUnificator.get(OrePrefixes.plateSuperdense, MaterialsUEVplus.Universium, 16),
+                GTOreDictUnificator.get(OrePrefixes.plateSuperdense, Materials.MagMatter, 32),
+                GTOreDictUnificator.get(OrePrefixes.plateSuperdense, Materials.Eternity, 32),
+                GTOreDictUnificator.get(OrePrefixes.plateSuperdense, Materials.Universium, 16),
                 new Object[] { OrePrefixes.circuit.get(Materials.UMV), 64L } },
             new FluidStack[] { MaterialMisc.MUTATED_LIVING_SOLDER.getFluidStack(147456),
-                MaterialsUEVplus.ExcitedDTEC.getFluid(2048000), Materials.Lead.getPlasma(36864),
-                MaterialsUEVplus.TranscendentMetal.getMolten(147456) },
+                Materials.ExcitedDTEC.getFluid(2048000), Materials.Lead.getPlasma(36864),
+                Materials.TranscendentMetal.getMolten(147456) },
             FOGExtraItemList.fogSolarMuonCatalystModule.get(1),
             300 * SECONDS,
             (int) TierEU.RECIPE_UMV);
@@ -142,7 +141,7 @@ public class RecipeLoader {
                 Materials.Indium.getPlasma(2304),
                 Materials.Hydrogen.getPlasma(16000),
                 Materials.Fluorine.getPlasma(16000))
-            .fluidOutputs(MaterialsUEVplus.QuarkGluonPlasma.getFluid(6400000))
+            .fluidOutputs(Materials.QuarkGluonPlasma.getFluid(6400000))
             .eut(2013265192)
             .duration(200)
             .addTo(FOGERecipeMaps.SolarMuonCatalyst);
@@ -151,15 +150,15 @@ public class RecipeLoader {
             .metadata(SolorMuonCatalystMetadata.INSTANCE, true)
             .itemInputs(GTUtility.copyAmount(0, Particle.getBaseParticle(Particle.MUON)))
             .fluidInputs(
-                MaterialsUEVplus.Space.getMolten(100),
-                MaterialsUEVplus.Time.getMolten(50),
+                Materials.Space.getMolten(100),
+                Materials.Time.getMolten(50),
                 Materials.Ichorium.getPlasma(1440),
                 new FluidStack(MaterialsElements.STANDALONE.HYPOGEN.getPlasma(), 1440),
                 Materials.Flerovium.getPlasma(1440),
                 new FluidStack(MaterialsElements.STANDALONE.CHRONOMATIC_GLASS.getPlasma(), 1440),
                 Materials.Bedrockium.getPlasma(1440),
                 new FluidStack(MaterialsElements.STANDALONE.DRAGON_METAL.getPlasma(), 1440))
-            .fluidOutputs(MaterialsUEVplus.MagMatter.getMolten(64000))
+            .fluidOutputs(Materials.MagMatter.getMolten(64000))
             .eut(2013265192)
             .duration(200)
             .addTo(FOGERecipeMaps.SolarMuonCatalyst);

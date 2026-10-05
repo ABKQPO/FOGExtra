@@ -12,6 +12,9 @@ import net.minecraft.util.StatCollector;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.fogextra.gui.FOGModuleGui;
+import com.gtnewhorizon.gtnhlib.util.numberformatting.NumberFormatUtil;
+
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.logic.ProcessingLogic;
@@ -22,8 +25,10 @@ import gregtech.api.recipe.check.CheckRecipeResultRegistry;
 import gregtech.api.util.GTRecipe;
 import gregtech.api.util.MultiblockTooltipBuilder;
 import gregtech.api.util.OverclockCalculator;
+import gregtech.common.gui.modularui.multiblock.base.MTEMultiBlockBaseGui;
 import tectech.thing.metaTileEntity.multi.godforge.MTEBaseModule;
 
+@IMetaTileEntity.SkipGenerateDescription
 public class MTEAlloySmelterModule extends MTEBaseModule {
 
     private long EUt = 0;
@@ -89,6 +94,7 @@ public class MTEAlloySmelterModule extends MTEBaseModule {
                 currentParallel = calculatedParallels;
                 EUt = calculatedEut;
                 overwriteCalculatedEut(0);
+                setCurrentRecipeHeat(recipe.mSpecialValue);
                 return CheckRecipeResultRegistry.SUCCESSFUL;
             }
         };
@@ -97,7 +103,7 @@ public class MTEAlloySmelterModule extends MTEBaseModule {
     @Override
     protected void setProcessingLogicPower(ProcessingLogic logic) {
         logic.setAvailableVoltage(Long.MAX_VALUE);
-        logic.setAvailableAmperage(1);
+        logic.setAvailableAmperage(Integer.MAX_VALUE);
         logic.setAmperageOC(false);
         logic.setUnlimitedTierSkips();
         logic.setMaxParallel(getActualParallel());
@@ -106,17 +112,8 @@ public class MTEAlloySmelterModule extends MTEBaseModule {
     }
 
     @Override
-    public int getMaxParallel() {
-        long value = (long) maximumParallel * 32;
-        if (value > Integer.MAX_VALUE) {
-            return Integer.MAX_VALUE;
-        }
-        return (int) value;
-    }
-
-    @Override
     public double getSpeedBonus() {
-        return processingSpeedBonus / 3;
+        return processingSpeedBonus / 2;
     }
 
     @Override
@@ -125,73 +122,78 @@ public class MTEAlloySmelterModule extends MTEBaseModule {
     }
 
     @Override
+    protected @NotNull MTEMultiBlockBaseGui<?> getGui() {
+        return new FOGModuleGui(this);
+    }
+
+    @Override
     public String[] getInfoData() {
         ArrayList<String> str = new ArrayList<>();
         str.add(
             StatCollector.translateToLocalFormatted(
                 "GT5U.infodata.progress",
-                GREEN + formatNumbers(mProgresstime / 20) + RESET,
-                YELLOW + formatNumbers(mMaxProgresstime / 20) + RESET));
+                GREEN + NumberFormatUtil.formatNumber(mProgresstime / 20) + RESET,
+                YELLOW + NumberFormatUtil.formatNumber(mMaxProgresstime / 20) + RESET));
         str.add(
             StatCollector.translateToLocalFormatted(
                 "tt.infodata.multi.currently_using",
-                RED + (getBaseMetaTileEntity().isActive() ? formatNumbers(EUt) : "0") + RESET));
+                RED + (getBaseMetaTileEntity().isActive() ? NumberFormatUtil.formatNumber(EUt) : "0") + RESET));
         str.add(
             YELLOW + StatCollector.translateToLocalFormatted(
                 "tt.infodata.multi.max_parallel",
-                RESET + formatNumbers(getActualParallel())));
+                RESET + NumberFormatUtil.formatNumber(getActualParallel())));
         str.add(
             YELLOW + StatCollector.translateToLocalFormatted(
                 "GT5U.infodata.parallel.current",
-                RESET + (getBaseMetaTileEntity().isActive() ? formatNumbers(currentParallel) : "0")));
+                RESET + (getBaseMetaTileEntity().isActive() ? NumberFormatUtil.formatNumber(currentParallel) : "0")));
         str.add(
             YELLOW + StatCollector.translateToLocalFormatted(
                 "tt.infodata.multi.multiplier.recipe_time",
-                RESET + formatNumbers(getSpeedBonus())));
+                RESET + NumberFormatUtil.formatNumber(getSpeedBonus())));
         str.add(
             YELLOW + StatCollector.translateToLocalFormatted(
                 "tt.infodata.multi.multiplier.energy",
-                RESET + formatNumbers(getEnergyDiscount())));
+                RESET + NumberFormatUtil.formatNumber(getEnergyDiscount())));
         str.add(
             YELLOW + StatCollector.translateToLocalFormatted(
                 "tt.infodata.multi.divisor.recipe_time.non_perfect_oc",
-                RESET + formatNumbers(getOverclockTimeFactor())));
+                RESET + NumberFormatUtil.formatNumber(getOverclockTimeFactor())));
         return str.toArray(new String[0]);
     }
 
     @Override
     public MultiblockTooltipBuilder createTooltip() {
         final MultiblockTooltipBuilder tt = new MultiblockTooltipBuilder();
-        tt.addMachineType(StatCollector.translateToLocal("FOGAlloySmelterModuleRecipeType"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_00"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_01"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_02"))
+        tt.addMachineType(StatCollector.translateToLocal("fogextra.machine.fog_alloy_smelter_module.recipe_type"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_alloy_smelter_module.tooltip.0"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_alloy_smelter_module.tooltip.1"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_alloy_smelter_module.tooltip.2"))
             .addSeparator(EnumChatFormatting.AQUA, 74)
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_03"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_04"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_05"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGAlloySmelterModule_06"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_alloy_smelter_module.tooltip.3"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_alloy_smelter_module.tooltip.4"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_alloy_smelter_module.tooltip.5"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_alloy_smelter_module.tooltip.6"))
             .beginStructureBlock(7, 7, 13, false)
             .addStructureInfo(
                 EnumChatFormatting.GOLD + "20"
                     + EnumChatFormatting.GRAY
-                    + StatCollector.translateToLocal("Tooltip_FOGMachine_Casing_00"))
+                    + StatCollector.translateToLocal("fogextra.machine.casing.singularity_shielding"))
             .addStructureInfo(
                 EnumChatFormatting.GOLD + "20"
                     + EnumChatFormatting.GRAY
-                    + StatCollector.translateToLocal("Tooltip_FOGMachine_Casing_01"))
+                    + StatCollector.translateToLocal("fogextra.machine.casing.gravitationally_severed"))
             .addStructureInfo(
                 EnumChatFormatting.GOLD + "5"
                     + EnumChatFormatting.GRAY
-                    + StatCollector.translateToLocal("Tooltip_FOGMachine_Casing_02"))
+                    + StatCollector.translateToLocal("fogextra.machine.casing.phonon_transmission"))
             .addStructureInfo(
                 EnumChatFormatting.GOLD + "5"
                     + EnumChatFormatting.GRAY
-                    + StatCollector.translateToLocal("Tooltip_FOGMachine_Casing_03"))
+                    + StatCollector.translateToLocal("fogextra.machine.casing.matter_guidance"))
             .addStructureInfo(
                 EnumChatFormatting.GOLD + "1"
                     + EnumChatFormatting.GRAY
-                    + StatCollector.translateToLocal("Tooltip_FOGMachine_Casing_04"))
+                    + StatCollector.translateToLocal("fogextra.machine.casing.energy_siphon"))
             .toolTipFinisher(EnumChatFormatting.AQUA, 74);
         return tt;
     }

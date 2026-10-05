@@ -12,9 +12,11 @@ import net.minecraft.util.StatCollector;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.fogextra.mixinHelper.IFOGModule;
+import com.fogextra.api.mixinHelper.IFOGModule;
+import com.fogextra.gui.FOGModuleGui;
 import com.fogextra.recipe.FOGERecipeMaps;
 import com.fogextra.recipe.SolorMuonCatalystMetadata;
+import com.gtnewhorizon.gtnhlib.util.numberformatting.NumberFormatUtil;
 
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
@@ -26,10 +28,12 @@ import gregtech.api.recipe.check.SimpleCheckRecipeResult;
 import gregtech.api.util.GTRecipe;
 import gregtech.api.util.MultiblockTooltipBuilder;
 import gregtech.api.util.OverclockCalculator;
+import gregtech.common.gui.modularui.multiblock.base.MTEMultiBlockBaseGui;
 import lombok.Getter;
 import lombok.Setter;
 import tectech.thing.metaTileEntity.multi.godforge.MTEBaseModule;
 
+@IMetaTileEntity.SkipGenerateDescription
 public class MTESolarMuonCatalystModule extends MTEBaseModule implements IFOGModule {
 
     private long EUt = 0;
@@ -120,6 +124,11 @@ public class MTESolarMuonCatalystModule extends MTEBaseModule implements IFOGMod
     }
 
     @Override
+    protected @NotNull MTEMultiBlockBaseGui<?> getGui() {
+        return new FOGModuleGui(this);
+    }
+
+    @Override
     public int getRecipeCatalystPriority() {
         return -10;
     }
@@ -130,68 +139,68 @@ public class MTESolarMuonCatalystModule extends MTEBaseModule implements IFOGMod
         str.add(
             StatCollector.translateToLocalFormatted(
                 "GT5U.infodata.progress",
-                GREEN + formatNumbers(mProgresstime / 20) + RESET,
-                YELLOW + formatNumbers(mMaxProgresstime / 20) + RESET));
+                GREEN + NumberFormatUtil.formatNumber(mProgresstime / 20) + RESET,
+                YELLOW + NumberFormatUtil.formatNumber(mMaxProgresstime / 20) + RESET));
         str.add(
             StatCollector.translateToLocalFormatted(
                 "tt.infodata.multi.currently_using",
-                RED + (getBaseMetaTileEntity().isActive() ? formatNumbers(EUt) : "0") + RESET));
+                RED + (getBaseMetaTileEntity().isActive() ? NumberFormatUtil.formatNumber(EUt) : "0") + RESET));
         str.add(
             YELLOW + StatCollector.translateToLocalFormatted(
                 "tt.infodata.multi.max_parallel",
-                RESET + formatNumbers(getActualParallel())));
+                RESET + NumberFormatUtil.formatNumber(getActualParallel())));
         str.add(
             YELLOW + StatCollector.translateToLocalFormatted(
                 "GT5U.infodata.parallel.current",
-                RESET + (getBaseMetaTileEntity().isActive() ? formatNumbers(currentParallel) : "0")));
+                RESET + (getBaseMetaTileEntity().isActive() ? NumberFormatUtil.formatNumber(currentParallel) : "0")));
         str.add(
             YELLOW + StatCollector.translateToLocalFormatted(
                 "tt.infodata.multi.multiplier.recipe_time",
-                RESET + formatNumbers(getSpeedBonus())));
+                RESET + NumberFormatUtil.formatNumber(getSpeedBonus())));
         str.add(
             YELLOW + StatCollector.translateToLocalFormatted(
                 "tt.infodata.multi.multiplier.energy",
-                RESET + formatNumbers(getEnergyDiscount())));
+                RESET + NumberFormatUtil.formatNumber(getEnergyDiscount())));
         str.add(
             YELLOW + StatCollector.translateToLocalFormatted(
                 "tt.infodata.multi.divisor.recipe_time.non_perfect_oc",
-                RESET + formatNumbers(getOverclockTimeFactor())));
+                RESET + NumberFormatUtil.formatNumber(getOverclockTimeFactor())));
         return str.toArray(new String[0]);
     }
 
     @Override
     public MultiblockTooltipBuilder createTooltip() {
         final MultiblockTooltipBuilder tt = new MultiblockTooltipBuilder();
-        tt.addMachineType(StatCollector.translateToLocal("FOGSolarMuonCatalystModuleRecipeType"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_00"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_01"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_02"))
+        tt.addMachineType(StatCollector.translateToLocal("fogextra.machine.fog_solar_muon_catalyst_module.recipe_type"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_solar_muon_catalyst_module.tooltip.0"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_solar_muon_catalyst_module.tooltip.1"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_solar_muon_catalyst_module.tooltip.2"))
             .addSeparator(EnumChatFormatting.AQUA, 74)
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_03"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_04"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_05"))
-            .addInfo(StatCollector.translateToLocal("Tooltip_FOGSolarMuonCatalystModule_06"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_solar_muon_catalyst_module.tooltip.3"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_solar_muon_catalyst_module.tooltip.4"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_solar_muon_catalyst_module.tooltip.5"))
+            .addInfo(StatCollector.translateToLocal("fogextra.machine.fog_solar_muon_catalyst_module.tooltip.6"))
             .beginStructureBlock(7, 7, 13, false)
             .addStructureInfo(
                 EnumChatFormatting.GOLD + "20"
                     + EnumChatFormatting.GRAY
-                    + StatCollector.translateToLocal("Tooltip_FOGMachine_Casing_00"))
+                    + StatCollector.translateToLocal("fogextra.machine.casing.singularity_shielding"))
             .addStructureInfo(
                 EnumChatFormatting.GOLD + "20"
                     + EnumChatFormatting.GRAY
-                    + StatCollector.translateToLocal("Tooltip_FOGMachine_Casing_01"))
+                    + StatCollector.translateToLocal("fogextra.machine.casing.gravitationally_severed"))
             .addStructureInfo(
                 EnumChatFormatting.GOLD + "5"
                     + EnumChatFormatting.GRAY
-                    + StatCollector.translateToLocal("Tooltip_FOGMachine_Casing_02"))
+                    + StatCollector.translateToLocal("fogextra.machine.casing.phonon_transmission"))
             .addStructureInfo(
                 EnumChatFormatting.GOLD + "5"
                     + EnumChatFormatting.GRAY
-                    + StatCollector.translateToLocal("Tooltip_FOGMachine_Casing_03"))
+                    + StatCollector.translateToLocal("fogextra.machine.casing.matter_guidance"))
             .addStructureInfo(
                 EnumChatFormatting.GOLD + "1"
                     + EnumChatFormatting.GRAY
-                    + StatCollector.translateToLocal("Tooltip_FOGMachine_Casing_04"))
+                    + StatCollector.translateToLocal("fogextra.machine.casing.energy_siphon"))
             .toolTipFinisher(EnumChatFormatting.AQUA, 74);
         return tt;
     }

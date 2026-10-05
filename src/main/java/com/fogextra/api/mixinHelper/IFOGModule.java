@@ -1,4 +1,4 @@
-package com.fogextra.mixinHelper;
+package com.fogextra.api.mixinHelper;
 
 public interface IFOGModule {
 
