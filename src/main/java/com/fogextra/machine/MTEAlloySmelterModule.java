@@ -1,6 +1,5 @@
 package com.fogextra.machine;
 
-import static gregtech.api.util.GTUtility.*;
 import static gregtech.common.misc.WirelessNetworkManager.*;
 import static net.minecraft.util.EnumChatFormatting.*;
 

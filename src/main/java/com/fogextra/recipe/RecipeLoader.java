@@ -1,9 +1,7 @@
 package com.fogextra.recipe;
 
-import static gregtech.api.enums.Mods.*;
 import static gregtech.api.util.GTRecipeBuilder.*;
 import static gregtech.api.util.GTRecipeConstants.*;
-import static gregtech.api.util.GTRecipeConstants.SCANNING;
 
 import net.minecraftforge.fluids.FluidStack;
 

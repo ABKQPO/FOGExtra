@@ -1,7 +1,5 @@
 package com.fogextra;
 
-import static net.minecraft.util.StatCollector.*;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

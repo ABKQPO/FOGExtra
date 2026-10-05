@@ -1,9 +1,7 @@
 package com.fogextra.machine;
 
-import static gregtech.api.util.GTUtility.*;
 import static gregtech.common.misc.WirelessNetworkManager.*;
 import static net.minecraft.util.EnumChatFormatting.*;
-import static net.minecraft.util.StatCollector.*;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
