@@ -15,11 +15,9 @@ import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.TierEU;
 import gregtech.api.util.GTOreDictUnificator;
 import gregtech.api.util.GTRecipeConstants;
-import gregtech.api.util.GTUtility;
 import gregtech.api.util.recipe.Scanning;
 import gtPlusPlus.core.material.MaterialMisc;
 import gtPlusPlus.core.material.MaterialsElements;
-import gtPlusPlus.core.material.Particle;
 import gtPlusPlus.xmod.gregtech.api.enums.GregtechItemList;
 import tectech.recipe.TTRecipeAdder;
 import tectech.thing.CustomItemList;
@@ -129,7 +127,7 @@ public class RecipeLoader {
             (int) TierEU.RECIPE_UMV);
 
         GTValues.RA.stdBuilder()
-            .itemInputs(GTUtility.copyAmount(0, Particle.getBaseParticle(Particle.MUON)))
+            .itemInputs(ItemList.Quark_Creation_Catalyst_Strange.get(0))
             .fluidInputs(
                 Materials.Lutetium.getPlasma(2304),
                 Materials.Uranium.getPlasma(2304),
@@ -146,7 +144,7 @@ public class RecipeLoader {
 
         GTValues.RA.stdBuilder()
             .metadata(SolorMuonCatalystMetadata.INSTANCE, true)
-            .itemInputs(GTUtility.copyAmount(0, Particle.getBaseParticle(Particle.MUON)))
+            .itemInputs(ItemList.Quark_Creation_Catalyst_Strange.get(0))
             .fluidInputs(
                 Materials.Space.getMolten(100),
                 Materials.Time.getMolten(50),
